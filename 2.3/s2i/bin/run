@@ -11,7 +11,7 @@ function is_foreman_installed() {
 }
 
 function is_procfile_exists() {
-  [ -f Procfile ] && return 0
+  [ -f ${PROCFILE_NAME:=Procfile} ] && return 0
 }
 
 set -e
@@ -35,7 +35,7 @@ export RACK_ENV=${RACK_ENV:-"production"}
 if is_procfile_exists; then
   if is_foreman_installed; then
     USE_PUMA_OR_RACK=false
-    exec bundle exec "foreman start -f ${PROCFILE_NAME:=Procfile} ${FOREMAN_ARGS:=''}"
+    bundle exec "foreman start -f ${PROCFILE_NAME:=Procfile} ${FOREMAN_ARGS:=''}"
   else
     USE_PUMA_OR_RACK=true
     echo "Profile detected but Foreman is not installed. You might consider adding 'foreman' into your Gemfile."
