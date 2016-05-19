@@ -35,7 +35,7 @@ export RACK_ENV=${RACK_ENV:-"production"}
 if is_procfile_exists; then
   if is_foreman_installed; then
     USE_PUMA_OR_RACK=false
-    echo "foreman start -f ${PROCFILE_NAME:=Procfile} ${FOREMAN_ARGS}"
+    echo "---> Starting: foreman start -f ${PROCFILE_NAME:=Procfile} ${FOREMAN_ARGS}"
     exec bundle exec "foreman start -f ${PROCFILE_NAME:=Procfile} ${FOREMAN_ARGS}"
   else
 
