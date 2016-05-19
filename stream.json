@@ -1,0 +1,33 @@
+{
+  "kind": "ImageStreamList",
+  "apiVersion": "v1",
+  "metadata": {},
+  "items": [
+    {
+      "kind": "ImageStream",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "mignev-ruby-23-centos7",
+        "creationTimestamp": null
+      },
+      "spec": {
+        "tags": [
+          {
+            "name": "latest",
+            "annotations": {
+              "description": "Build and run Ruby applications w/ foreman and puma",
+              "iconClass": "icon-ruby",
+              "tags": "builder,nodejs,ruby-2.3",
+              "supports":"ruby:2.3,ruby",
+              "sampleRepo": "https://github.com/mignev/ruby-ex.git"
+            },
+            "from": {
+              "kind": "DockerImage",
+              "name": "mignev/ruby-23-centos7:latest"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

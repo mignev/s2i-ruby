@@ -35,21 +35,22 @@ export RACK_ENV=${RACK_ENV:-"production"}
 if is_procfile_exists; then
   if is_foreman_installed; then
     USE_PUMA_OR_RACK=false
-    bundle exec "foreman start -f ${PROCFILE_NAME:=Procfile} ${FOREMAN_ARGS:=''}"
+    echo "foreman start -f ${PROCFILE_NAME:=Procfile} ${FOREMAN_ARGS}"
+    exec bundle exec "foreman start -f ${PROCFILE_NAME:=Procfile} ${FOREMAN_ARGS}"
   else
+
     USE_PUMA_OR_RACK=true
     echo "Profile detected but Foreman is not installed. You might consider adding 'foreman' into your Gemfile."
   fi
 fi
 
 if $USE_PUMA_OR_RACK; then
+
   if is_puma_installed; then
     export_vars=$(cgroup-limits) ; export $export_vars
-
     exec bundle exec "puma --config ../etc/puma.cfg"
   else
     echo "You might consider adding 'puma' into your Gemfile."
-
     if bundle exec rackup -h &>/dev/null; then
       if [ -f Gemfile ]; then
         exec bundle exec "rackup -E ${RAILS_ENV:-$RACK_ENV} -P /tmp/rack.pid --host 0.0.0.0 --port 8080"
